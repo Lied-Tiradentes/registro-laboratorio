@@ -118,6 +118,9 @@
       <label for="professor">Professor Responsável:</label>
       <input type="text" id="professor" name="professor" required>
 
+      <label for="disciplina">Disciplina:</label>
+      <input type="text" id="disciplina" name="disciplina" required>
+
       <label for="objetivo">Objetivo da Pesquisa:</label>
       <textarea id="objetivo" name="objetivo" rows="3" required></textarea>
 
@@ -134,7 +137,7 @@
     const form = document.getElementById('registroForm');
     const mensagem = document.getElementById('mensagem');
 
-    // 👉 SUBSTITUA com o link do seu Web App do Google Apps Script:
+    // Substitua pelo seu link do Google Apps Script Web App:
     const scriptURL = 'https://script.google.com/macros/s/AKfycbwLnP2KAmJyDfecNXbEQ1WG2kp9quFFAElKPrv-A_ay3poMv0y0WhKtnSVBo2wyUCq7DA/exec';
 
     form.addEventListener('submit', function (e) {
@@ -144,6 +147,7 @@
       const nome = document.getElementById('nome').value;
       const turma = document.getElementById('turma').value;
       const professor = document.getElementById('professor').value;
+      const disciplina = document.getElementById('disciplina').value;
       const objetivo = document.getElementById('objetivo').value;
 
       const dados = {
@@ -151,6 +155,7 @@
         nome,
         turma,
         professor,
+        disciplina,
         objetivo
       };
 
@@ -173,4 +178,3 @@
 
 </body>
 </html>
-
