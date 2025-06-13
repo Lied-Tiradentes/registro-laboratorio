@@ -114,35 +114,63 @@
   </footer>
 
   <script>
-    document.getElementById("registroForm").addEventListener("submit", async function(e) {
-      e.preventDefault();
+  const form = document.getElementById("registroForm");
+  const botao = form.querySelector("button");
+  let esperandoResposta = false;
 
-      const dados = {
-        tipoVisita: document.getElementById("tipoVisita").value,
-        nome: document.getElementById("nome").value,
-        turma: document.getElementById("turma").value,
-        professor: document.getElementById("professor").value,
-        disciplina: document.getElementById("disciplina").value,
-        objetivo: document.getElementById("objetivo").value
-      };
+  form.addEventListener("submit", async function (e) {
+    e.preventDefault();
 
-      try {
-        const resposta = await fetch("https://script.google.com/macros/s/AKfycbz3QTmr3nwqlgjP2yTlv-bfs7N9GdO4L1ySI0H6aE0zJnmECYPCEhir8voBVpB-sC-bJQ/exec", {
-          method: "POST",
-          body: JSON.stringify(dados),
-          headers: {
-            "Content-Type": "application/json"
-          }
-        });
+    if (esperandoResposta) {
+      alert("O registro está sendo enviado. Por favor, aguarde alguns segundos.");
+      return;
+    }
 
-        const texto = await resposta.text();
-        alert(texto);
-        document.getElementById("registroForm").reset();
-      } catch (erro) {
-        alert("Erro ao registrar: " + erro.message);
-      }
-    });
-  </script>
+    esperandoResposta = true;
+    botao.disabled = true;
+    botao.textContent = "Registrando...";
+
+    const dados = {
+      tipoVisita: document.getElementById("tipoVisita").value,
+      nome: document.getElementById("nome").value,
+      turma: document.getElementById("turma").value,
+      professor: document.getElementById("professor").value,
+      disciplina: document.getElementById("disciplina").value,
+      objetivo: document.getElementById("objetivo").value
+    };
+
+    try {
+      const resposta = await fetch("URL_DO_SEU_WEB_APP_AQUI", {
+        method: "POST",
+        body: JSON.stringify(dados),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
+
+      const texto = await resposta.text();
+      
+      const mensagem = document.createElement("div");
+      mensagem.textContent = texto;
+      mensagem.style.marginTop = "1rem";
+      mensagem.style.color = "#2e7d32";
+      mensagem.style.fontWeight = "bold";
+      mensagem.style.background = "#e8f5e9";
+      mensagem.style.padding = "1rem";
+      mensagem.style.borderRadius = "8px";
+      mensagem.style.boxShadow = "0 0 5px rgba(0,0,0,0.1)";
+      form.appendChild(mensagem);
+
+      form.reset();
+    } catch (erro) {
+      alert("Erro ao registrar: " + erro.message);
+    } finally {
+      botao.disabled = false;
+      botao.textContent = "Registrar";
+      esperandoResposta = false;
+    }
+  });
+</script>
 
 </body>
 </html>
