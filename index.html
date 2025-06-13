@@ -63,7 +63,7 @@
       cursor: pointer;
     }
 
-    button:hover {
+    button:hover:enabled {
       background-color: #1565c0;
     }
 
@@ -73,6 +73,16 @@
       background-color: #f5f5f5;
       font-size: 0.9rem;
       color: #666;
+    }
+
+    .mensagem {
+      margin-top: 1rem;
+      color: #2e7d32;
+      font-weight: bold;
+      background: #e8f5e9;
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
     }
   </style>
 </head>
@@ -107,6 +117,7 @@
     <textarea id="objetivo" rows="3" required></textarea>
 
     <button type="submit">Registrar</button>
+    <div id="mensagemStatus"></div>
   </form>
 
   <footer>
@@ -114,63 +125,56 @@
   </footer>
 
   <script>
-  const form = document.getElementById("registroForm");
-  const botao = form.querySelector("button");
-  let esperandoResposta = false;
+    const form = document.getElementById("registroForm");
+    const botao = form.querySelector("button");
+    const statusDiv = document.getElementById("mensagemStatus");
+    let esperandoResposta = false;
 
-  form.addEventListener("submit", async function (e) {
-    e.preventDefault();
+    form.addEventListener("submit", async function (e) {
+      e.preventDefault();
 
-    if (esperandoResposta) {
-      alert("O registro está sendo enviado. Por favor, aguarde alguns segundos.");
-      return;
-    }
+      if (esperandoResposta) {
+        alert("O registro está sendo enviado. Por favor, aguarde alguns segundos.");
+        return;
+      }
 
-    esperandoResposta = true;
-    botao.disabled = true;
-    botao.textContent = "Registrando...";
+      esperandoResposta = true;
+      botao.disabled = true;
+      botao.textContent = "Registrando...";
+      statusDiv.innerHTML = "";
 
-    const dados = {
-      tipoVisita: document.getElementById("tipoVisita").value,
-      nome: document.getElementById("nome").value,
-      turma: document.getElementById("turma").value,
-      professor: document.getElementById("professor").value,
-      disciplina: document.getElementById("disciplina").value,
-      objetivo: document.getElementById("objetivo").value
-    };
+      const dados = {
+        tipoVisita: document.getElementById("tipoVisita").value,
+        nome: document.getElementById("nome").value,
+        turma: document.getElementById("turma").value,
+        professor: document.getElementById("professor").value,
+        disciplina: document.getElementById("disciplina").value,
+        objetivo: document.getElementById("objetivo").value
+      };
 
-    try {
-      const resposta = await fetch("https://script.google.com/macros/s/AKfycbz3QTmr3nwqlgjP2yTlv-bfs7N9GdO4L1ySI0H6aE0zJnmECYPCEhir8voBVpB-sC-bJQ/exec", {
-        method: "POST",
-        body: JSON.stringify(dados),
-        headers: {
-          "Content-Type": "application/json"
-        }
-      });
+      try {
+        const resposta = await fetch("https://script.google.com/macros/s/AKfycbz3QTmr3nwqlgjP2yTlv-bfs7N9GdO4L1ySI0H6aE0zJnmECYPCEhir8voBVpB-sC-bJQ/exec", {
+          method: "POST",
+          body: JSON.stringify(dados),
+          headers: {
+            "Content-Type": "application/json"
+          }
+        });
 
-      const texto = await resposta.text();
-      
-      const mensagem = document.createElement("div");
-      mensagem.textContent = texto;
-      mensagem.style.marginTop = "1rem";
-      mensagem.style.color = "#2e7d32";
-      mensagem.style.fontWeight = "bold";
-      mensagem.style.background = "#e8f5e9";
-      mensagem.style.padding = "1rem";
-      mensagem.style.borderRadius = "8px";
-      mensagem.style.boxShadow = "0 0 5px rgba(0,0,0,0.1)";
-      form.appendChild(mensagem);
+        const texto = await resposta.text();
 
-      form.reset();
-    } catch (erro) {
-      alert("Erro ao registrar: " + erro.message);
-    } finally {
-      botao.disabled = false;
-      botao.textContent = "Registrar";
-      esperandoResposta = false;
-    }
-  });
-</script>
+        statusDiv.textContent = texto;
+        statusDiv.className = "mensagem";
+        form.reset();
+      } catch (erro) {
+        alert("Erro ao registrar: " + erro.message);
+      } finally {
+        botao.disabled = false;
+        botao.textContent = "Registrar";
+        esperandoResposta = false;
+      }
+    });
+  </script>
 
 </body>
 </html>
