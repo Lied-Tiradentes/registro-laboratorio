@@ -63,8 +63,21 @@
       cursor: pointer;
     }
 
-    button:hover:enabled {
+    button:hover {
       background-color: #1565c0;
+    }
+
+    #mensagem {
+      margin-top: 1rem;
+      font-weight: bold;
+      color: #1565c0;
+      display: none;
+      animation: fadein 0.5s;
+    }
+
+    @keyframes fadein {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
 
     footer {
@@ -73,16 +86,6 @@
       background-color: #f5f5f5;
       font-size: 0.9rem;
       color: #666;
-    }
-
-    .mensagem {
-      margin-top: 1rem;
-      color: #2e7d32;
-      font-weight: bold;
-      background: #e8f5e9;
-      padding: 1rem;
-      border-radius: 8px;
-      box-shadow: 0 0 5px rgba(0,0,0,0.1);
     }
   </style>
 </head>
@@ -117,7 +120,7 @@
     <textarea id="objetivo" rows="3" required></textarea>
 
     <button type="submit">Registrar</button>
-    <div id="mensagemStatus"></div>
+    <div id="mensagem">Registrando dados...</div>
   </form>
 
   <footer>
@@ -126,22 +129,13 @@
 
   <script>
     const form = document.getElementById("registroForm");
-    const botao = form.querySelector("button");
-    const statusDiv = document.getElementById("mensagemStatus");
-    let esperandoResposta = false;
+    const mensagem = document.getElementById("mensagem");
 
-    form.addEventListener("submit", async function (e) {
+    form.addEventListener("submit", async function(e) {
       e.preventDefault();
 
-      if (esperandoResposta) {
-        alert("O registro está sendo enviado. Por favor, aguarde alguns segundos.");
-        return;
-      }
-
-      esperandoResposta = true;
-      botao.disabled = true;
-      botao.textContent = "Registrando...";
-      statusDiv.innerHTML = "";
+      mensagem.style.display = "block";
+      mensagem.textContent = "Registrando dados...";
 
       const dados = {
         tipoVisita: document.getElementById("tipoVisita").value,
@@ -162,16 +156,11 @@
         });
 
         const texto = await resposta.text();
-
-        statusDiv.textContent = texto;
-        statusDiv.className = "mensagem";
+        mensagem.textContent = texto;
         form.reset();
       } catch (erro) {
-        alert("Erro ao registrar: " + erro.message);
-      } finally {
-        botao.disabled = false;
-        botao.textContent = "Registrar";
-        esperandoResposta = false;
+        mensagem.textContent = "Erro ao registrar: " + erro.message;
+        mensagem.style.color = "red";
       }
     });
   </script>
