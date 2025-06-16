@@ -2,179 +2,169 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Registro de Atividades - Laboratório de Informática</title>
+  <title>Registro de Visitas ao LIED</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
       background-color: #f0f8ff;
       margin: 0;
       padding: 0;
-    }
-
-    .container {
-      max-width: 700px;
-      margin: auto;
-      background-color: #ffffff;
-      padding: 30px 20px 60px;
-      border-radius: 16px;
-      box-shadow: 0 0 12px rgba(0, 0, 0, 0.08);
-      margin-top: 30px;
-      position: relative;
-    }
-
-    .logo {
       text-align: center;
-      margin-bottom: 20px;
     }
 
-    .logo img {
-      width: 120px;
-      height: auto;
+    header {
+      background-color: #e3f2fd;
+      padding: 1rem;
+    }
+
+    header img {
+      height: 80px;
     }
 
     h1 {
-      text-align: center;
-      color: #2c3e50;
-      font-size: 24px;
-      margin-bottom: 30px;
+      margin: 0.5rem 0 1rem;
+      color: #1e88e5;
+    }
+
+    form {
+      background-color: #ffffff;
+      margin: 2rem auto;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      max-width: 500px;
     }
 
     label {
       display: block;
-      font-weight: bold;
-      margin-top: 12px;
+      margin: 1rem 0 0.3rem;
+      font-weight: 600;
+      text-align: left;
     }
 
-    input, textarea, select {
+    input, select, textarea {
       width: 100%;
-      padding: 10px;
-      margin-top: 6px;
-      margin-bottom: 16px;
+      padding: 0.6rem;
       border: 1px solid #ccc;
-      border-radius: 8px;
-      box-sizing: border-box;
-      font-size: 15px;
+      border-radius: 6px;
     }
 
     button {
-      background-color: #27ae60;
+      margin-top: 1.5rem;
+      padding: 0.7rem 1.5rem;
+      background-color: #1e88e5;
       color: white;
-      padding: 12px 20px;
       border: none;
-      border-radius: 10px;
+      border-radius: 6px;
+      font-size: 1rem;
       cursor: pointer;
-      font-size: 16px;
-      transition: background-color 0.3s ease;
     }
 
     button:hover {
-      background-color: #219150;
+      background-color: #1565c0;
     }
 
-    .success {
-      color: green;
-      margin-top: 10px;
+    #mensagem {
+      margin-top: 1rem;
+      font-weight: bold;
+      color: #1565c0;
+      display: none;
+      animation: fadein 0.5s;
     }
 
-    .error {
-      color: red;
-      margin-top: 10px;
+    @keyframes fadein {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
 
     footer {
-      text-align: center;
-      font-size: 14px;
-      margin-top: 30px;
-      padding: 20px;
-      background-color: #d0f0ff;
-      color: #2c3e50;
-      border-top: 1px solid #b0e0ff;
+      margin-top: 2rem;
+      padding: 1rem;
+      background-color: #f5f5f5;
+      font-size: 0.9rem;
+      color: #666;
     }
   </style>
 </head>
 <body>
 
-  <div class="container">
-    <div class="logo">
-      <img src="Logo da Escola Fundo Transparente.png" alt="Logo da Escola Tiradentes">
-    </div>
+  <header>
+    <img src="Logo da Escola Fundo Transparente.png" alt="Logo da Escola Tiradentes">
+    <h1>Registro de Visitas ao Laboratório de Informática</h1>
+  </header>
 
-    <h1>Registro de Atividades - Laboratório de Informática</h1>
+  <form id="registroForm">
+    <label for="tipoVisita">Tipo de Visita:</label>
+    <select id="tipoVisita" required>
+      <option value="">Selecione</option>
+      <option value="Avulso">Avulso</option>
+      <option value="Com a Turma">Com a Turma</option>
+    </select>
 
-    <form id="registroForm">
-      <label for="tipoVisita">Tipo de Visita:</label>
-      <select id="tipoVisita" name="tipoVisita" required>
-        <option value="">-- Selecione --</option>
-        <option value="Pesquisa avulsa">Pesquisa avulsa</option>
-        <option value="Com a turma">Com a turma</option>
-      </select>
+    <label for="nome">Nome:</label>
+    <input type="text" id="nome" required>
 
-      <label for="nome">Nome do Estudante:</label>
-      <input type="text" id="nome" name="nome" required>
+    <label for="turma">Turma:</label>
+    <input type="text" id="turma" required>
 
-      <label for="turma">Turma:</label>
-      <input type="text" id="turma" name="turma" required>
+    <label for="professor">Professor:</label>
+    <input type="text" id="professor" required>
 
-      <label for="professor">Professor Responsável:</label>
-      <input type="text" id="professor" name="professor" required>
+    <label for="disciplina">Disciplina:</label>
+    <input type="text" id="disciplina" required>
 
-      <label for="disciplina">Disciplina:</label>
-      <input type="text" id="disciplina" name="disciplina" required>
+    <label for="objetivo">Objetivo da Pesquisa:</label>
+    <textarea id="objetivo" rows="3" required></textarea>
 
-      <label for="objetivo">Objetivo da Pesquisa:</label>
-      <textarea id="objetivo" name="objetivo" rows="3" required></textarea>
-
-      <button type="submit">Registrar Atividade</button>
-      <p id="mensagem" class=""></p>
-    </form>
-  </div>
+    <button type="submit">Registrar</button>
+    <div id="mensagem">Registrando dados...</div>
+  </form>
 
   <footer>
     Desenvolvido pela Equipe do LIED - Tiradentes 2025
   </footer>
 
   <script>
-    const form = document.getElementById('registroForm');
-    const mensagem = document.getElementById('mensagem');
+    const form = document.getElementById("registroForm");
+    const mensagem = document.getElementById("mensagem");
 
-    // Substitua pelo seu link do Google Apps Script Web App:
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbz3QTmr3nwqlgjP2yTlv-bfs7N9GdO4L1ySI0H6aE0zJnmECYPCEhir8voBVpB-sC-bJQ/exec';
-
-    form.addEventListener('submit', function (e) {
+    form.addEventListener("submit", async function(e) {
       e.preventDefault();
 
-      const tipoVisita = document.getElementById('tipoVisita').value;
-      const nome = document.getElementById('nome').value;
-      const turma = document.getElementById('turma').value;
-      const professor = document.getElementById('professor').value;
-      const disciplina = document.getElementById('disciplina').value;
-      const objetivo = document.getElementById('objetivo').value;
+      mensagem.style.display = "block";
+      mensagem.textContent = "Registrando dados...";
 
       const dados = {
-        tipoVisita,
-        nome,
-        turma,
-        professor,
-        disciplina,
-        objetivo
+        tipoVisita: document.getElementById("tipoVisita").value,
+        nome: document.getElementById("nome").value,
+        turma: document.getElementById("turma").value,
+        professor: document.getElementById("professor").value,
+        disciplina: document.getElementById("disciplina").value,
+        objetivo: document.getElementById("objetivo").value
       };
 
-      fetch(scriptURL, {
-        method: 'POST',
-        body: JSON.stringify(dados)
-      })
-      .then(response => {
-        if (!response.ok) throw new Error("Erro na requisição.");
-        mensagem.textContent = "Registro enviado com sucesso!";
-        mensagem.className = "success";
+      try {
+        const resposta = await fetch("https://script.google.com/macros/s/AKfycbz3QTmr3nwqlgjP2yTlv-bfs7N9GdO4L1ySI0H6aE0zJnmECYPCEhir8voBVpB-sC-bJQ/exec", {
+          method: "POST",
+          body: JSON.stringify(dados),
+          headers: {
+            "Content-Type": "application/json"
+          }
+        });
+
+        const texto = await resposta.text();
+        mensagem.textContent = texto;
         form.reset();
-      })
-      .catch(error => {
-        mensagem.textContent = "Erro ao enviar: " + error.message;
-        mensagem.className = "error";
-      });
+      } catch (erro) {
+        mensagem.textContent = "Erro ao registrar: " + erro.message;
+        mensagem.style.color = "red";
+      }
     });
   </script>
 
 </body>
 </html>
+
