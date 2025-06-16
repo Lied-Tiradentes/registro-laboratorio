@@ -80,67 +80,80 @@
 
   <header>
     <img src="Logo da Escola Fundo Transparente.png" alt="Logo da Escola Tiradentes">
-    <h1>Registro de Visitas ao Laboratório de Informática</h1>
-  </header>
+    <h1>Registro de Atividades - Laboratório de Informática</h1>
 
-  <form id="registroForm">
-    <label for="tipoVisita">Tipo de Visita:</label>
-    <select id="tipoVisita" required>
-      <option value="">Selecione</option>
-      <option value="Avulso">Avulso</option>
-      <option value="Com a Turma">Com a Turma</option>
-    </select>
+    <form id="registroForm">
+      <label for="tipoVisita">Tipo de Visita:</label>
+      <select id="tipoVisita" name="tipoVisita" required>
+        <option value="">-- Selecione --</option>
+        <option value="Pesquisa avulsa">Pesquisa avulsa</option>
+        <option value="Com a turma">Com a turma</option>
+      </select>
 
-    <label for="nome">Nome:</label>
-    <input type="text" id="nome" required>
+      <label for="nome">Nome do Estudante:</label>
+      <input type="text" id="nome" name="nome" required>
 
-    <label for="turma">Turma:</label>
-    <input type="text" id="turma" required>
+      <label for="turma">Turma:</label>
+      <input type="text" id="turma" name="turma" required>
 
-    <label for="professor">Professor:</label>
-    <input type="text" id="professor" required>
+      <label for="professor">Professor Responsável:</label>
+      <input type="text" id="professor" name="professor" required>
 
-    <label for="disciplina">Disciplina:</label>
-    <input type="text" id="disciplina" required>
+      <label for="disciplina">Disciplina:</label>
+      <input type="text" id="disciplina" name="disciplina" required>
 
-    <label for="objetivo">Objetivo da Pesquisa:</label>
-    <textarea id="objetivo" rows="3" required></textarea>
+      <label for="objetivo">Objetivo da Pesquisa:</label>
+      <textarea id="objetivo" name="objetivo" rows="3" required></textarea>
 
-    <button type="submit">Registrar</button>
-  </form>
+      <button type="submit">Registrar Atividade</button>
+      <p id="mensagem" class=""></p>
+    </form>
+  </div>
 
   <footer>
     Desenvolvido pela Equipe do LIED - Tiradentes 2025
   </footer>
 
   <script>
-    document.getElementById("registroForm").addEventListener("submit", async function(e) {
+    const form = document.getElementById('registroForm');
+    const mensagem = document.getElementById('mensagem');
+
+    // Substitua pelo seu link do Google Apps Script Web App:
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbz3QTmr3nwqlgjP2yTlv-bfs7N9GdO4L1ySI0H6aE0zJnmECYPCEhir8voBVpB-sC-bJQ/exec';
+
+    form.addEventListener('submit', function (e) {
       e.preventDefault();
 
+      const tipoVisita = document.getElementById('tipoVisita').value;
+      const nome = document.getElementById('nome').value;
+      const turma = document.getElementById('turma').value;
+      const professor = document.getElementById('professor').value;
+      const disciplina = document.getElementById('disciplina').value;
+      const objetivo = document.getElementById('objetivo').value;
+
       const dados = {
-        tipoVisita: document.getElementById("tipoVisita").value,
-        nome: document.getElementById("nome").value,
-        turma: document.getElementById("turma").value,
-        professor: document.getElementById("professor").value,
-        disciplina: document.getElementById("disciplina").value,
-        objetivo: document.getElementById("objetivo").value
+        tipoVisita,
+        nome,
+        turma,
+        professor,
+        disciplina,
+        objetivo
       };
 
-      try {
-        const resposta = await fetch("https://script.google.com/macros/s/AKfycbz3QTmr3nwqlgjP2yTlv-bfs7N9GdO4L1ySI0H6aE0zJnmECYPCEhir8voBVpB-sC-bJQ/exec", {
-          method: "POST",
-          body: JSON.stringify(dados),
-          headers: {
-            "Content-Type": "application/json"
-          }
-        });
-
-        const texto = await resposta.text();
-        alert(texto);
-        document.getElementById("registroForm").reset();
-      } catch (erro) {
-        alert("Erro ao registrar: " + erro.message);
-      }
+      fetch(scriptURL, {
+        method: 'POST',
+        body: JSON.stringify(dados)
+      })
+      .then(response => {
+        if (!response.ok) throw new Error("Erro na requisição.");
+        mensagem.textContent = "Registro enviado com sucesso!";
+        mensagem.className = "success";
+        form.reset();
+      })
+      .catch(error => {
+        mensagem.textContent = "Erro ao enviar: " + error.message;
+        mensagem.className = "error";
+      });
     });
   </script>
 
