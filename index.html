@@ -1,86 +1,148 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
+  <title>Registro de Visitas ao LIED</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Registro LIED</title>
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+
   <style>
-    body { font-family: Arial, sans-serif; padding: 20px; background: #f0f4f8; }
-    form { background: #fff; padding: 20px; border-radius: 10px; max-width: 500px; margin: auto; box-shadow: 0 0 10px #ccc; }
-    label { display: block; margin-top: 10px; }
-    input, select, textarea, button {
-      width: 100%; padding: 10px; margin-top: 5px;
-      border-radius: 5px; border: 1px solid #ccc; box-sizing: border-box;
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f0f8ff;
+      margin: 0;
+      padding: 0;
+      text-align: center;
     }
-    #mensagem { margin-top: 20px; font-weight: bold; text-align: center; }
+
+    header {
+      background-color: #e3f2fd;
+      padding: 1rem;
+    }
+
+    header img {
+      height: 80px;
+    }
+
+    h1 {
+      margin: 0.5rem 0 1rem;
+      color: #1e88e5;
+    }
+
+    form {
+      background-color: #ffffff;
+      margin: 2rem auto;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      max-width: 500px;
+    }
+
+    label {
+      display: block;
+      margin: 1rem 0 0.3rem;
+      font-weight: 600;
+      text-align: left;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 0.6rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    button {
+      margin-top: 1.5rem;
+      padding: 0.7rem 1.5rem;
+      background-color: #1e88e5;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #1565c0;
+    }
+
+    footer {
+      margin-top: 2rem;
+      padding: 1rem;
+      background-color: #f5f5f5;
+      font-size: 0.9rem;
+      color: #666;
+    }
   </style>
 </head>
 <body>
-  <form id="formulario">
-    <h2>Registro de Visita ao LIED</h2>
 
-    <label for="tipoVisita">Tipo de Visita</label>
+  <header>
+    <img src="Logo da Escola Fundo Transparente.png" alt="Logo da Escola Tiradentes">
+    <h1>Registro de Visitas ao Laboratório de Informática</h1>
+  </header>
+
+  <form id="registroForm">
+    <label for="tipoVisita">Tipo de Visita:</label>
     <select id="tipoVisita" required>
-      <option value="Turma">Com a Turma</option>
+      <option value="">Selecione</option>
       <option value="Avulso">Avulso</option>
+      <option value="Com a Turma">Com a Turma</option>
     </select>
 
-    <label for="nome">Nome</label>
+    <label for="nome">Nome:</label>
     <input type="text" id="nome" required>
 
-    <label for="turma">Turma</label>
+    <label for="turma">Turma:</label>
     <input type="text" id="turma" required>
 
-    <label for="professor">Professor</label>
+    <label for="professor">Professor:</label>
     <input type="text" id="professor" required>
 
-    <label for="disciplina">Disciplina</label>
+    <label for="disciplina">Disciplina:</label>
     <input type="text" id="disciplina" required>
 
-    <label for="objetivo">Objetivo da Pesquisa</label>
-    <textarea id="objetivo" rows="4" required></textarea>
+    <label for="objetivo">Objetivo da Pesquisa:</label>
+    <textarea id="objetivo" rows="3" required></textarea>
 
     <button type="submit">Registrar</button>
-    <div id="mensagem"></div>
   </form>
 
-  <script>
-    const formulario = document.getElementById('formulario');
-    const mensagem = document.getElementById('mensagem');
+  <footer>
+    Desenvolvido pela Equipe do LIED - Tiradentes 2025
+  </footer>
 
-    formulario.addEventListener('submit', async (e) => {
+  <script>
+    document.getElementById("registroForm").addEventListener("submit", async function(e) {
       e.preventDefault();
-      mensagem.textContent = "Registrando...";
-      mensagem.style.color = "blue";
 
       const dados = {
-        tipoVisita: document.getElementById('tipoVisita').value,
-        nome: document.getElementById('nome').value,
-        turma: document.getElementById('turma').value,
-        professor: document.getElementById('professor').value,
-        disciplina: document.getElementById('disciplina').value,
-        objetivo: document.getElementById('objetivo').value
+        tipoVisita: document.getElementById("tipoVisita").value,
+        nome: document.getElementById("nome").value,
+        turma: document.getElementById("turma").value,
+        professor: document.getElementById("professor").value,
+        disciplina: document.getElementById("disciplina").value,
+        objetivo: document.getElementById("objetivo").value
       };
 
       try {
         const resposta = await fetch("https://script.google.com/macros/s/AKfycbz3QTmr3nwqlgjP2yTlv-bfs7N9GdO4L1ySI0H6aE0zJnmECYPCEhir8voBVpB-sC-bJQ/exec", {
           method: "POST",
-          mode: "cors",
+          body: JSON.stringify(dados),
           headers: {
             "Content-Type": "application/json"
-          },
-          body: JSON.stringify(dados)
+          }
         });
 
         const texto = await resposta.text();
-        mensagem.textContent = texto;
-        mensagem.style.color = "green";
-        formulario.reset();
+        alert(texto);
+        document.getElementById("registroForm").reset();
       } catch (erro) {
-        mensagem.textContent = "Erro ao registrar: " + erro.message;
-        mensagem.style.color = "red";
+        alert("Erro ao registrar: " + erro.message);
       }
     });
   </script>
+
 </body>
 </html>
