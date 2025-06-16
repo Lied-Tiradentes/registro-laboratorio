@@ -68,11 +68,22 @@
     }
 
     #mensagem {
-      margin-top: 1rem;
+      margin-top: 1.2rem;
       font-weight: bold;
-      color: #1565c0;
       display: none;
-      animation: fadein 0.5s;
+      animation: fadein 0.4s;
+    }
+
+    .sucesso {
+      color: green;
+    }
+
+    .erro {
+      color: red;
+    }
+
+    .info {
+      color: #1565c0;
     }
 
     @keyframes fadein {
@@ -120,7 +131,7 @@
     <textarea id="objetivo" rows="3" required></textarea>
 
     <button type="submit">Registrar</button>
-    <div id="mensagem">Registrando dados...</div>
+    <div id="mensagem" class="info">Registrando dados...</div>
   </form>
 
   <footer>
@@ -134,8 +145,9 @@
     form.addEventListener("submit", async function(e) {
       e.preventDefault();
 
-      mensagem.style.display = "block";
+      mensagem.className = "info";
       mensagem.textContent = "Registrando dados...";
+      mensagem.style.display = "block";
 
       const dados = {
         tipoVisita: document.getElementById("tipoVisita").value,
@@ -157,14 +169,14 @@
 
         const texto = await resposta.text();
         mensagem.textContent = texto;
+        mensagem.className = "sucesso";
         form.reset();
       } catch (erro) {
         mensagem.textContent = "Erro ao registrar: " + erro.message;
-        mensagem.style.color = "red";
+        mensagem.className = "erro";
       }
     });
   </script>
 
 </body>
 </html>
-
