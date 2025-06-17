@@ -1,161 +1,196 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>Registro de Visitas ao LIED</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" href="favicon.ico" type="image/x-icon">
-
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #f0f8ff;
-      margin: 0;
-      padding: 0;
-      text-align: center;
-    }
-
-    header {
-      background-color: #e3f2fd;
-      padding: 1rem;
-    }
-
-    header img {
-      height: 80px;
-    }
-
-    h1 {
-      margin: 0.5rem 0 1rem;
-      color: #1e88e5;
-    }
-
-    form {
-      background-color: #ffffff;
-      margin: 2rem auto;
-      padding: 2rem;
-      border-radius: 12px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      max-width: 500px;
-    }
-
-    label {
-      display: block;
-      margin: 1rem 0 0.3rem;
-      font-weight: 600;
-      text-align: left;
-    }
-
-    input, select, textarea {
-      width: 100%;
-      padding: 0.6rem;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-    }
-
-    button {
-      margin-top: 1.5rem;
-      padding: 0.7rem 1.5rem;
-      background-color: #1e88e5;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      font-size: 1rem;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background-color: #1565c0;
-    }
-
-    footer {
-      margin-top: 2rem;
-      padding: 1rem;
-      background-color: #f5f5f5;
-      font-size: 0.9rem;
-      color: #666;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controle de Acesso - LIED</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #ec4899 100%);
+        }
+        .form-shadow {
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .success-message {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
-<body>
+<body class="min-h-screen bg-gray-100">
+    <div class="gradient-bg min-h-screen flex items-center justify-center p-4">
+        <div class="w-full max-w-md">
+            <div class="bg-white rounded-xl p-8 form-shadow">
+                <div class="text-center mb-8">
+                    <img src="Logo da Escola Fundo Transparente.png" alt="Logo da Escola" class="mx-auto h-24 mb-4">
+                    <h1 class="text-2xl font-bold text-gray-800">Controle de Acesso</h1>
+                    <p class="text-gray-600 mt-2">LIED - Laboratório de Informática Educativa</p>
+                </div>
 
-  <header>
-    <img src="Logo da Escola Fundo Transparente.png" alt="Logo da Escola Tiradentes">
-    <h1>Registro de Atividades - Laboratório de Informática</h1>
+                <form id="accessForm" class="space-y-6">
+                    <div>
+                        <label for="tipo_pesquisa" class="block text-sm font-medium text-gray-700 mb-1">Tipo de Pesquisa</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-clipboard-list text-gray-400"></i>
+                            </div>
+                            <select id="tipo_pesquisa" name="tipo_pesquisa" required
+                                class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                                <option value="">Selecione o tipo</option>
+                                <option value="A vulto">A vulto</option>
+                                <option value="Com a turma">Com a turma</option>
+                            </select>
+                        </div>
+                    </div>
 
-    <form id="registroForm">
-      <label for="tipoVisita">Tipo de Visita:</label>
-      <select id="tipoVisita" name="tipoVisita" required>
-        <option value="">-- Selecione --</option>
-        <option value="Pesquisa avulsa">Pesquisa avulsa</option>
-        <option value="Com a turma">Com a turma</option>
-      </select>
+                    <div>
+                        <label for="nome" class="block text-sm font-medium text-gray-700 mb-1">Nome Completo</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-user text-gray-400"></i>
+                            </div>
+                            <input type="text" id="nome" name="nome" required 
+                                class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" 
+                                placeholder="Digite seu nome completo">
+                        </div>
+                    </div>
 
-      <label for="nome">Nome do Estudante:</label>
-      <input type="text" id="nome" name="nome" required>
+                    <div>
+                        <label for="turma" class="block text-sm font-medium text-gray-700 mb-1">Turma</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-users text-gray-400"></i>
+                            </div>
+                            <input type="text" id="turma" name="turma" required 
+                                class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" 
+                                placeholder="Ex: 3º Ano A">
+                        </div>
+                    </div>
 
-      <label for="turma">Turma:</label>
-      <input type="text" id="turma" name="turma" required>
+                    <div>
+                        <label for="professor" class="block text-sm font-medium text-gray-700 mb-1">Professor Responsável</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-chalkboard-teacher text-gray-400"></i>
+                            </div>
+                            <input type="text" id="professor" name="professor" required 
+                                class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" 
+                                placeholder="Nome do professor">
+                        </div>
+                    </div>
 
-      <label for="professor">Professor Responsável:</label>
-      <input type="text" id="professor" name="professor" required>
+                    <div>
+                        <label for="disciplina" class="block text-sm font-medium text-gray-700 mb-1">Disciplina</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-book text-gray-400"></i>
+                            </div>
+                            <input type="text" id="disciplina" name="disciplina" required 
+                                class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" 
+                                placeholder="Nome da disciplina">
+                        </div>
+                    </div>
 
-      <label for="disciplina">Disciplina:</label>
-      <input type="text" id="disciplina" name="disciplina" required>
+                    <div>
+                        <label for="objetivo" class="block text-sm font-medium text-gray-700 mb-1">Objetivo da Pesquisa</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 pt-2 flex items-start pointer-events-none">
+                                <i class="fas fa-search text-gray-400"></i>
+                            </div>
+                            <textarea id="objetivo" name="objetivo" rows="3" required 
+                                class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" 
+                                placeholder="Descreva o objetivo da sua pesquisa"></textarea>
+                        </div>
+                    </div>
 
-      <label for="objetivo">Objetivo da Pesquisa:</label>
-      <textarea id="objetivo" name="objetivo" rows="3" required></textarea>
+                    <div>
+                        <button type="submit" id="submitBtn" 
+                            class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150 ease-in-out">
+                            <i class="fas fa-sign-in-alt mr-2"></i> Registrar Acesso
+                        </button>
+                    </div>
+                </form>
 
-      <button type="submit">Registrar Atividade</button>
-      <p id="mensagem" class=""></p>
-    </form>
-  </div>
+                <div id="successMessage" class="hidden success-message mt-6 p-4 bg-green-50 border border-green-200 rounded-md">
+                    <div class="flex">
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-check-circle text-green-400"></i>
+                        </div>
+                        <div class="ml-3">
+                            <h3 class="text-sm font-medium text-green-800">Registro enviado com sucesso!</h3>
+                            <div class="mt-2 text-sm text-green-700">
+                                <p>Obrigado por registrar seu acesso ao LIED. Bom trabalho!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-  <footer>
-    Desenvolvido pela Equipe do LIED - Tiradentes 2025
-  </footer>
+            <div class="mt-6 text-center text-white text-opacity-80 text-sm">
+                <p>© 2023 LIED - Todos os direitos reservados</p>
+            </div>
+        </div>
+    </div>
 
-  <script>
-    const form = document.getElementById('registroForm');
-    const mensagem = document.getElementById('mensagem');
-
-    // Substitua pelo seu link do Google Apps Script Web App:
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbz3QTmr3nwqlgjP2yTlv-bfs7N9GdO4L1ySI0H6aE0zJnmECYPCEhir8voBVpB-sC-bJQ/exec';
-
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-
-      const tipoVisita = document.getElementById('tipoVisita').value;
-      const nome = document.getElementById('nome').value;
-      const turma = document.getElementById('turma').value;
-      const professor = document.getElementById('professor').value;
-      const disciplina = document.getElementById('disciplina').value;
-      const objetivo = document.getElementById('objetivo').value;
-
-      const dados = {
-        tipoVisita,
-        nome,
-        turma,
-        professor,
-        disciplina,
-        objetivo
-      };
-
-      fetch(scriptURL, {
-        method: 'POST',
-        body: JSON.stringify(dados)
-      })
-      .then(response => {
-        if (!response.ok) throw new Error("Erro na requisição.");
-        mensagem.textContent = "Registro enviado com sucesso!";
-        mensagem.className = "success";
-        form.reset();
-      })
-      .catch(error => {
-        mensagem.textContent = "Erro ao enviar: " + error.message;
-        mensagem.className = "error";
-      });
-    });
-  </script>
-
+    <script>
+        document.getElementById('accessForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const originalBtnText = submitBtn.innerHTML;
+            
+            // Show loading state
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Enviando...';
+            
+            // Get form data
+            const formData = new FormData(this);
+            const data = {};
+            formData.forEach((value, key) => {
+                data[key] = value;
+            });
+            
+            // Add timestamp
+            data.timestamp = new Date().toLocaleString('pt-BR');
+            
+            // Replace with your Google Apps Script Web App URL
+            const scriptUrl = 'https://script.google.com/macros/s/AKfycbz3QTmr3nwqlgjP2yTlv-bfs7N9GdO4L1ySI0H6aE0zJnmECYPCEhir8voBVpB-sC-bJQ/exec';
+            
+            // Send data to Google Sheets
+            fetch(scriptUrl, {
+                method: 'POST',
+                mode: 'no-cors',
+                cache: 'no-cache',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+            .then(() => {
+                // Show success message
+                document.getElementById('successMessage').classList.remove('hidden');
+                document.getElementById('accessForm').reset();
+                
+                // Hide success message after 5 seconds
+                setTimeout(() => {
+                    document.getElementById('successMessage').classList.add('hidden');
+                }, 5000);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                alert('Ocorreu um erro ao enviar o formulário. Por favor, tente novamente.');
+            })
+            .finally(() => {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalBtnText;
+            });
+        });
+    </script>
 </body>
 </html>
