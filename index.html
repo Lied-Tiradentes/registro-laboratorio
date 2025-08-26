@@ -178,6 +178,11 @@
                 document.getElementById('successMessage').classList.remove('hidden');
                 document.getElementById('accessForm').reset();
                 
+                // Após 2 segundos, redireciona para o Google
+                setTimeout(() => {
+                window.location.href = "https://www.google.com";
+            	}, 2000);
+                                
                 // Hide success message after 5 seconds
                 setTimeout(() => {
                     document.getElementById('successMessage').classList.add('hidden');
